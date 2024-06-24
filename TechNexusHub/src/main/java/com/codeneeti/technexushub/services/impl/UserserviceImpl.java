@@ -2,6 +2,7 @@ package com.codeneeti.technexushub.services.impl;
 
 import com.codeneeti.technexushub.dtos.UserDTO;
 import com.codeneeti.technexushub.entities.UserEntity;
+import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
 import com.codeneeti.technexushub.repositories.UserRepository;
 import com.codeneeti.technexushub.services.UserSerivice;
 import org.modelmapper.ModelMapper;
@@ -59,13 +60,13 @@ public class UserserviceImpl implements UserSerivice {
 
     @Override
     public UserDTO getUserById(String userId) {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
         return entityToDto(userEntity);
     }
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("user not found from this email ID"));
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found from this email ID"));
         return entityToDto(userEntity);
     }
 

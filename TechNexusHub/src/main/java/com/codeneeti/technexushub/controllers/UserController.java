@@ -3,6 +3,7 @@ package com.codeneeti.technexushub.controllers;
 import com.codeneeti.technexushub.dtos.ApiResponse;
 import com.codeneeti.technexushub.dtos.UserDTO;
 import com.codeneeti.technexushub.services.UserSerivice;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class UserController {
     private UserSerivice userSerivice;
 
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid  @RequestBody UserDTO userDTO) {
         UserDTO userDto1 = userSerivice.createUser(userDTO);
         return new ResponseEntity<>(userDto1, HttpStatus.CREATED);
     }
@@ -25,7 +26,7 @@ public class UserController {
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserDTO> updateUser(
             @PathVariable("userId") String userId,
-            @RequestBody UserDTO userDTO
+            @Valid @RequestBody UserDTO userDTO
     ) {
         UserDTO updateUser = userSerivice.updateUser(userId, userDTO);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
