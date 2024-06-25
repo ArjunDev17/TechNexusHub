@@ -1,5 +1,6 @@
 package com.codeneeti.technexushub.services;
 
+import com.codeneeti.technexushub.dtos.PageableResponse;
 import com.codeneeti.technexushub.dtos.UserDTO;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface UserSerivice {
 
     void delteUser(String userId);
 
-    List<UserDTO> getAllUser();
+    PageableResponse<UserDTO> getAllUser(int pageNumber, int pageSize , String sortBy, String sortDir);
 
     UserDTO getUserById(String userId);
 

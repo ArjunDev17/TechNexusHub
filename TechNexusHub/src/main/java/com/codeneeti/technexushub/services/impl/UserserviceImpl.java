@@ -1,14 +1,28 @@
 package com.codeneeti.technexushub.services.impl;
 
+import com.codeneeti.technexushub.dtos.PageableResponse;
 import com.codeneeti.technexushub.dtos.UserDTO;
 import com.codeneeti.technexushub.entities.UserEntity;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
+import com.codeneeti.technexushub.helper.Helper;
 import com.codeneeti.technexushub.repositories.UserRepository;
 import com.codeneeti.technexushub.services.UserSerivice;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +35,9 @@ public class UserserviceImpl implements UserSerivice {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Value("${user.profile.image.path}")
+    private String imagePath;
+    Logger logger= LoggerFactory.getLogger(UserserviceImpl.class);
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
@@ -48,14 +65,34 @@ public class UserserviceImpl implements UserSerivice {
 
     @Override
     public void delteUser(String userId) {
-        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+
+        //delete imagre file
+        String fullPath=imagePath+userEntity.getImageName();
+        try{
+            Path path= Paths.get(fullPath);
+            Files.delete(path);
+        }catch (NoSuchFileException exception){
+logger.info("Image folder not found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public List<UserDTO> getAllUser() {
-        List<UserEntity> userList = userRepository.findAll();
-        List<UserDTO> userDTOList = userList.stream().map(userEntity -> entityToDto(userEntity)).collect(Collectors.toList());
-        return userDTOList;
+    public PageableResponse<UserDTO> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir) {
+
+
+//        Pageable pageable= (Pageable) PageRequest.of(pageNumber,pageSize);
+//        Pageable pageable=PageRequest.of(pageNumber,pageSize);
+//        Sort sort = Sort.by(sortBy);
+        Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort); //pageNumber-1
+//        List<UserEntity> userList = userRepository.findAll();
+        Page<UserEntity> pages = userRepository.findAll(pageable);
+        PageableResponse<UserDTO> response = Helper.getPageableResponse(pages, UserDTO.class);
+
+        return response;
     }
 
     @Override
