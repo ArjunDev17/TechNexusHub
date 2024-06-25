@@ -1,0 +1,8 @@
+Data transefer Objects
+
+data will transefer other class anad data will be stored by another class
+
+//    create
+//    UserEntities createUser(UserEntities user);
+    //int his case we using UserEntities class to represnt our datbase and with same class
+    // we are trying to insert data
