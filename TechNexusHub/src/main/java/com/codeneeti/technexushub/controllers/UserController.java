@@ -30,7 +30,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserSerivice userSerivice;
-
     @Autowired
     private FileService fileService;
     @Value("${user.profile.image.path}")
@@ -38,7 +37,8 @@ public class UserController {
     private Logger logger= LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUser(@Valid  @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(
+            @Valid  @RequestBody UserDTO userDTO) {
         UserDTO userDto1 = userSerivice.createUser(userDTO);
         return new ResponseEntity<>(userDto1, HttpStatus.CREATED);
     }
