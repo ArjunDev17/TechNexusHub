@@ -29,5 +29,13 @@ public interface ProductService {
                                                int pageSize,
                                                String sortBy,
                                                String sortDir);
+    //create product with Category
+    ProductDTO createWithCategory(ProductDTO productDTO,String categoryId);
+    ProductDTO updateCategory(String productId,String categoryId);
+
+    PageableResponse<ProductDTO>getAllOfCategory(String categoryId,int pageNumber,
+                                                int pageSize,
+                                                String sortBy,
+                                                String sortDir);
 
 }

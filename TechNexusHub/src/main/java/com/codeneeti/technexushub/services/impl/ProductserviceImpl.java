@@ -2,9 +2,11 @@ package com.codeneeti.technexushub.services.impl;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
 import com.codeneeti.technexushub.dtos.ProductDTO;
+import com.codeneeti.technexushub.entities.Category;
 import com.codeneeti.technexushub.entities.Product;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
 import com.codeneeti.technexushub.helper.Helper;
+import com.codeneeti.technexushub.repositories.CategoryRepository;
 import com.codeneeti.technexushub.repositories.ProductRepository;
 import com.codeneeti.technexushub.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -27,13 +29,15 @@ public class ProductserviceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public ProductDTO create(ProductDTO productDTO) {
+        Product product = mapper.map(productDTO, Product.class);
         String stringUUID = UUID.randomUUID().toString();
         productDTO.setProductId(stringUUID);
         productDTO.setAddedDate(new Date());
-        Product product = mapper.map(productDTO, Product.class);
         Product saved = productRepository.save(product);
         return mapper.map(saved, ProductDTO.class);
     }
@@ -104,4 +108,50 @@ public class ProductserviceImpl implements ProductService {
 
         return Helper.getPageableResponse(all,ProductDTO.class);
     }
+
+    @Override
+    public ProductDTO createWithCategory(ProductDTO productDTO, String categoryId) {
+        // Find the category by its ID
+        Category category = categoryRepository.findById(categoryId).orElseThrow(
+                () -> new ResourceNotFoundException("Category not found based on this ID"));
+
+        // Map the DTO to the Product entity
+        Product product = mapper.map(productDTO, Product.class);
+
+        // Generate a UUID and set it on the product entity
+        String stringUUID = UUID.randomUUID().toString();
+        product.setProductId(stringUUID); // Ensure the ID is set on the entity
+
+        // Set other fields on the product entity
+        product.setAddedDate(new Date());
+        product.setCategory(category);
+        // Save the product entity to the repository
+        Product saved = productRepository.save(product);
+
+        // Map the saved entity back to a DTO
+        return mapper.map(saved, ProductDTO.class);
+    }
+
+    @Override
+    public ProductDTO updateCategory(String productId, String categoryId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("product not found based onthis id"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found based onthis id"));
+product.setCategory(category);
+        Product savedProduct = productRepository.save(product);
+
+        return mapper.map(savedProduct,ProductDTO.class);
+    }
+
+    @Override
+    public PageableResponse<ProductDTO> getAllOfCategory(String categoryId,int pageNumber,
+                                                         int pageSize,
+                                                         String sortBy,
+                                                         String sortDir) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category not found based on this ID"));
+        Sort sort=(sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        Pageable pageable=PageRequest.of(pageNumber,pageSize,sort);
+        Page<Product> byCategory = productRepository.findByCategory(category,pageable);
+        return Helper.getPageableResponse(byCategory,ProductDTO.class);
+    }
+
 }
