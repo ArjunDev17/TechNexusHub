@@ -1,5 +1,6 @@
 package com.codeneeti.technexushub.dtos;
 
+import com.codeneeti.technexushub.entities.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -23,4 +24,5 @@ public class ProductDTO {
     private boolean live;
     private boolean stock;
     private String productImageName;
+    private CategoryDTO category;
 }
