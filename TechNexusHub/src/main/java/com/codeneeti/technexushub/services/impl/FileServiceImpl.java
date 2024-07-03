@@ -1,6 +1,6 @@
 package com.codeneeti.technexushub.services.impl;
 
-import com.codeneeti.technexushub.exceptions.BadApiRequest;
+import com.codeneeti.technexushub.exceptions.BadApiRequestException;
 import com.codeneeti.technexushub.services.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
             Files.copy(file.getInputStream(), Paths.get(fullPathWithFileName));
             return  fileNameWithExtention;
         }else{
-            throw new BadApiRequest("file with this "+extention+"not allowed");
+            throw new BadApiRequestException("file with this "+extention+"not allowed");
         }
 
     }

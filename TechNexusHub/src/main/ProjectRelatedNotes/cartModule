@@ -1,0 +1,80 @@
+
+//    @Transactional
+//    @Override
+//    public CartDTO addItemToCart(String userId, AddItemToCartRequest request) {
+//        String productId = request.getProductId();
+//        int quantity = request.getQuantity();
+//        if (quantity <= 0) {
+//            throw new BadApiRequest("Requested quantity is not VALID");
+//        }
+//
+//        // fetch the product
+//        Product product = productRepository.findById(productId).orElseThrow(
+//                () -> new ResourceNotFoundException("Product not available for the given id"));
+//
+//        // fetch user for cart
+//        UserEntity user = userRepository.findById(userId).orElseThrow(
+//                () -> new ResourceNotFoundException("User not available for the given id"));
+//
+//        Cart cart;
+//        try {
+//            cart = cartRepository.findByUser(user).orElse(new Cart());
+//            if (cart.getCartId() == null) {
+//                cart.setCartId(UUID.randomUUID().toString());
+//                cart.setCreatedAt(new Date());
+//                cart.setUser(user);
+//            }
+//        } catch (NoSuchElementException exception) {
+//            cart = new Cart();
+//            cart.setCartId(UUID.randomUUID().toString());
+//            cart.setCreatedAt(new Date());
+//            cart.setUser(user);
+//        }
+//
+//        // synchronize the block where cart is being updated
+//        synchronized (this) {
+//            AtomicReference<Boolean> updated = new AtomicReference<>(false);
+//            List<CartItems> items = cart.getItems();
+//            List<CartItems> updateItem = items.stream().map(item -> {
+//                if (item.getProduct().getProductId().equals(productId)) {
+//                    // item already present in cart
+//                    item.setQuantity(quantity);
+//                    item.setTotalPrice(quantity * product.getPrice());
+//                    updated.set(true);
+//                }
+//                return item;
+//            }).collect(Collectors.toList());
+//            cart.setItems(updateItem);
+//
+//            if (!updated.get()) {
+//                CartItems cartItems = CartItems.builder()
+//                        .quantity(quantity)
+//                        .totalPrice(quantity * product.getPrice())
+//                        .product(product)
+//                        .build();
+//                cart.getItems().add(cartItems);
+//            }
+//
+//            try {
+//                Cart savedCart = cartRepository.save(cart);
+//                return modelMapper.map(savedCart, CartDTO.class);
+//            } catch (DataIntegrityViolationException e) {
+//                // handle duplicate key exception
+//                throw new ConflictException("The item already exists in the cart");
+//            }
+//        }
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

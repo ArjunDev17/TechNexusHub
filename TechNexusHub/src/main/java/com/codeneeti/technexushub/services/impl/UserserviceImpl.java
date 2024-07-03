@@ -2,7 +2,7 @@ package com.codeneeti.technexushub.services.impl;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
 import com.codeneeti.technexushub.dtos.UserDTO;
-import com.codeneeti.technexushub.entities.UserEntity;
+import com.codeneeti.technexushub.entities.User;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
 import com.codeneeti.technexushub.helper.Helper;
 import com.codeneeti.technexushub.repositories.UserRepository;
@@ -43,7 +43,7 @@ public class UserserviceImpl implements UserSerivice {
     public UserDTO createUser(UserDTO userDTO) {
         String userId = UUID.randomUUID().toString();
         userDTO.setUserId(userId);
-        UserEntity user = dtoToEntity(userDTO);
+        User user = dtoToEntity(userDTO);
 //        userRepository.save(userDTO);
         userRepository.save(user);
         UserDTO userDTO1 = entityToDto(user);
@@ -53,19 +53,19 @@ public class UserserviceImpl implements UserSerivice {
 
     @Override
     public UserDTO updateUser(String userId, UserDTO userDTO) {
-        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not findfrom this id"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not findfrom this id"));
         user.setName(userDTO.getName());
         user.setAbout(userDTO.getAbout());
         user.setGender(userDTO.getGender());
         user.setPassword(userDTO.getPassword());
         user.setImageName(userDTO.getImageName());
-        UserEntity saved = userRepository.save(user);
+        User saved = userRepository.save(user);
         return entityToDto(saved);
     }
 
     @Override
     public void delteUser(String userId) {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+        User userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
 
         //delete imagre file
         String fullPath=imagePath+userEntity.getImageName();
@@ -89,7 +89,7 @@ logger.info("Image folder not found");
         Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort); //pageNumber-1
 //        List<UserEntity> userList = userRepository.findAll();
-        Page<UserEntity> pages = userRepository.findAll(pageable);
+        Page<User> pages = userRepository.findAll(pageable);
         PageableResponse<UserDTO> response = Helper.getPageableResponse(pages, UserDTO.class);
 
         return response;
@@ -97,25 +97,25 @@ logger.info("Image folder not found");
 
     @Override
     public UserDTO getUserById(String userId) {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        User userEntity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
         return entityToDto(userEntity);
     }
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found from this email ID"));
+        User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found from this email ID"));
         return entityToDto(userEntity);
     }
 
     @Override
     public List<UserDTO> searchUser(String keyword) {
-        Optional<UserEntity> byNameContaining = userRepository.findByNameContaining(keyword);
+        Optional<User> byNameContaining = userRepository.findByNameContaining(keyword);
         List<UserDTO> userDTOList = byNameContaining.stream().map(userEntity -> entityToDto(userEntity)).collect(Collectors.toList());
 
         return userDTOList;
     }
 
-    private UserEntity dtoToEntity(UserDTO userDTO) {
+    private User dtoToEntity(UserDTO userDTO) {
 //        UserEntity userEntity = UserEntity.builder()
 //                .userId(userDTO.getUserId())
 //                .name(userDTO.getName())
@@ -126,10 +126,10 @@ logger.info("Image folder not found");
 //                .imageName(userDTO.getImageName())
 //                .build();
 //        return userEntity;
-        return modelMapper.map(userDTO, UserEntity.class);
+        return modelMapper.map(userDTO, User.class);
     }
 
-    private UserDTO entityToDto(UserEntity user) {
+    private UserDTO entityToDto(User user) {
 //        UserDTO userDTO = UserDTO.builder()
 //                .userId(user.getUserId())
 //                .name(user.getName())
