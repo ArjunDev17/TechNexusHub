@@ -32,15 +32,25 @@ public class ProductserviceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Override
-    public ProductDTO create(ProductDTO productDTO) {
-        Product product = mapper.map(productDTO, Product.class);
-        String stringUUID = UUID.randomUUID().toString();
-        productDTO.setProductId(stringUUID);
-        productDTO.setAddedDate(new Date());
-        Product saved = productRepository.save(product);
-        return mapper.map(saved, ProductDTO.class);
-    }
+//    @Override
+//    public ProductDTO create(ProductDTO productDTO) {
+//        Product product = mapper.map(productDTO, Product.class);
+//        String stringUUID = UUID.randomUUID().toString();
+//        productDTO.setProductId(stringUUID);
+//        productDTO.setAddedDate(new Date());
+//        Product saved = productRepository.save(product);
+//        return mapper.map(saved, ProductDTO.class);
+//    }
+@Override
+public ProductDTO create(ProductDTO productDTO) {
+    Product product = mapper.map(productDTO, Product.class);
+    String stringUUID = UUID.randomUUID().toString();
+    product.setProductId(stringUUID); // Assign the UUID to the entity
+    product.setAddedDate(new Date());
+    Product saved = productRepository.save(product);
+    return mapper.map(saved, ProductDTO.class);
+}
+
 
     @Override
     public ProductDTO update(ProductDTO productDTO, String productId) {
