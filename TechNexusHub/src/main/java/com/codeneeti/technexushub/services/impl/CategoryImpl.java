@@ -1,6 +1,6 @@
 package com.codeneeti.technexushub.services.impl;
 
-import com.codeneeti.technexushub.dtos.CategoryDTO;
+import com.codeneeti.technexushub.dtos.CategoryDto;
 import com.codeneeti.technexushub.dtos.PageableResponse;
 import com.codeneeti.technexushub.entities.Category;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.rmi.server.UID;
 import java.util.UUID;
 
 @Service
@@ -28,17 +27,17 @@ public class CategoryImpl implements CategoryService {
     private ModelMapper mapper;
 
     @Override
-    public CategoryDTO create(CategoryDTO categoryDTO) {
+    public CategoryDto create(CategoryDto categoryDTO) {
         String categoryId = UUID.randomUUID().toString();
         categoryDTO.setCategoryId(categoryId);
         Category mapped = mapper.map(categoryDTO, Category.class);
         Category saved = categoryRepository.save(mapped);
-        CategoryDTO mapped1 = mapper.map(mapped, CategoryDTO.class);
+        CategoryDto mapped1 = mapper.map(mapped, CategoryDto.class);
         return mapped1;
     }
 
     @Override
-    public CategoryDTO update(CategoryDTO categoryDTO, String categoryId) {
+    public CategoryDto update(CategoryDto categoryDTO, String categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category is not found based on this ID"));
 
         category.setTitle(categoryDTO.getTitle());
@@ -46,7 +45,7 @@ public class CategoryImpl implements CategoryService {
 
         category.setDescription(categoryDTO.getDescription());
         categoryRepository.save(category);
-        return mapper.map(category, CategoryDTO.class);
+        return mapper.map(category, CategoryDto.class);
     }
 
     @Override
@@ -56,19 +55,19 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO getSingleDTO(String categoryId) {
+    public CategoryDto getSingleDTO(String categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category is not found based on this ID"));
 
-        return mapper.map(category, CategoryDTO.class);
+        return mapper.map(category, CategoryDto.class);
     }
 
     @Override
-    public PageableResponse<CategoryDTO> getAll(int pageNumber, int pageSize, String sortBy, String sortDir) {
+    public PageableResponse<CategoryDto> getAll(int pageNumber, int pageSize, String sortBy, String sortDir) {
 //        Sort sort=()?():();
         Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Category> page = categoryRepository.findAll(pageable);
-        PageableResponse<CategoryDTO> pageableResponse = Helper.getPageableResponse(page, CategoryDTO.class);
+        PageableResponse<CategoryDto> pageableResponse = Helper.getPageableResponse(page, CategoryDto.class);
         return pageableResponse;
     }
 }

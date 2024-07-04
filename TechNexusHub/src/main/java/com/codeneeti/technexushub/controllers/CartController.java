@@ -1,8 +1,8 @@
 package com.codeneeti.technexushub.controllers;
 
 import com.codeneeti.technexushub.dtos.AddItemToCartRequest;
-import com.codeneeti.technexushub.dtos.ApiResponse;
-import com.codeneeti.technexushub.dtos.CartDTO;
+import com.codeneeti.technexushub.dtos.ApiResponseMessage;
+import com.codeneeti.technexushub.dtos.CartDto;
 import com.codeneeti.technexushub.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +18,18 @@ public class CartController {
 
 
 @PostMapping(value = "/add/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<CartDTO> addItemToCart(@PathVariable String userId,
+public ResponseEntity<CartDto> addItemToCart(@PathVariable String userId,
                                              @RequestBody AddItemToCartRequest request) {
-    CartDTO cartDTO = cartService.addItemToCart(userId, request);
+    CartDto cartDTO = cartService.addItemToCart(userId, request);
     return new ResponseEntity<>(cartDTO, HttpStatus.OK);
 }
 
 
     @DeleteMapping("/{userId}/items/{itemId}")
-    public ResponseEntity<ApiResponse> removeItemfromCart(@PathVariable String userId,
-                                                          @PathVariable int itemId) {
+    public ResponseEntity<ApiResponseMessage> removeItemfromCart(@PathVariable String userId,
+                                                                 @PathVariable int itemId) {
         cartService.removeItemFromCart(userId, itemId);
-        ApiResponse apiResponse = ApiResponse.builder()
+        ApiResponseMessage apiResponse = ApiResponseMessage.builder()
                 .message("item removed")
                 .success(true)
                 .status(HttpStatus.OK)
@@ -39,9 +39,9 @@ public ResponseEntity<CartDTO> addItemToCart(@PathVariable String userId,
 
     //clear cart
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse> clearCart(@PathVariable String userId) {
+    public ResponseEntity<ApiResponseMessage> clearCart(@PathVariable String userId) {
         cartService.clearCart(userId);
-        ApiResponse apiResponse = ApiResponse.builder()
+        ApiResponseMessage apiResponse = ApiResponseMessage.builder()
                 .message("all cart removed")
                 .success(true)
                 .status(HttpStatus.OK)
@@ -50,8 +50,8 @@ public ResponseEntity<CartDTO> addItemToCart(@PathVariable String userId,
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<CartDTO> getCart(@PathVariable("userId") String userId) {
-        CartDTO cartDTO = cartService.getCartByUser(userId);
+    public ResponseEntity<CartDto> getCart(@PathVariable("userId") String userId) {
+        CartDto cartDTO = cartService.getCartByUser(userId);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
 }

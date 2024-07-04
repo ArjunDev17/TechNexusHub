@@ -1,7 +1,6 @@
 package com.codeneeti.technexushub.dtos;
 
 import com.codeneeti.technexushub.validate.ImageNameValid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -12,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class UserDto {
     //pattern
     //custome validator
     private String userId;

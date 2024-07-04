@@ -7,9 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartItemDTO {
+public class CartItemDto {
     private int cartItemId;
     private int quantity;
     private double totalPrice;
-    private ProductDTO product;
+    private ProductDto product;
 }

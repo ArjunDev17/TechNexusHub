@@ -28,21 +28,21 @@ public class ProductController {
     private String imagePath;
 
     @PostMapping("/create")
-    public ResponseEntity<ProductDTO>create(@Valid @RequestBody ProductDTO productDTO){
-        ProductDTO productDTO1 = productService.create(productDTO);
+    public ResponseEntity<ProductDto>create(@Valid @RequestBody ProductDto productDTO){
+        ProductDto productDTO1 = productService.create(productDTO);
         return new ResponseEntity<>(productDTO1, HttpStatus.CREATED);
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductDTO>update(@PathVariable String productId,@RequestBody ProductDTO productDTO){
-        ProductDTO updated = productService.update(productDTO, productId);
+    public ResponseEntity<ProductDto>update(@PathVariable String productId, @RequestBody ProductDto productDTO){
+        ProductDto updated = productService.update(productDTO, productId);
         return  new ResponseEntity<>(updated,HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<ApiResponse>delete(@PathVariable String productId){
+    public ResponseEntity<ApiResponseMessage>delete(@PathVariable String productId){
         productService.delete(productId);
-        ApiResponse apiResponse = ApiResponse.builder()
+        ApiResponseMessage apiResponse = ApiResponseMessage.builder()
                 .message("product deleted")
                 .status(HttpStatus.OK)
                 .success(true)
@@ -52,40 +52,40 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductDTO>getSinglProd(@PathVariable String productId){
-        ProductDTO productDTO = productService.get(productId);
+    public ResponseEntity<ProductDto>getSinglProd(@PathVariable String productId){
+        ProductDto productDTO = productService.get(productId);
         return new ResponseEntity<>(productDTO,HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<PageableResponse<ProductDTO>>getAll(
+    public ResponseEntity<PageableResponse<ProductDto>>getAll(
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false)int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false)int pageSize,
             @RequestParam(value = "sortBy",defaultValue = "title",required = false)String sortBy,
             @RequestParam(value = "sortDir",defaultValue = "asc",required = false)String sortDir
     ){
-        PageableResponse<ProductDTO> all = productService.getAll(pageNumber, pageSize, sortBy, sortDir);
+        PageableResponse<ProductDto> all = productService.getAll(pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(all,HttpStatus.OK);
     }
     @GetMapping("/live")
-    public ResponseEntity<PageableResponse<ProductDTO>>getAllLive(
+    public ResponseEntity<PageableResponse<ProductDto>>getAllLive(
             @RequestParam(value = "pagenumber",defaultValue = "0",required = false)int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false)int pageSize,
             @RequestParam(value = "sortBy",defaultValue = "title",required = false)String sortBy,
             @RequestParam(value = "sortDir",defaultValue = "asc",required = false)String sortDir
     ){
-        PageableResponse<ProductDTO> all = productService.getAllLive(pageNumber, pageSize, sortBy, sortDir);
+        PageableResponse<ProductDto> all = productService.getAllLive(pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(all,HttpStatus.OK);
     }
     @GetMapping("/search/{query}")
-    public ResponseEntity<PageableResponse<ProductDTO>>searchProduvt(
+    public ResponseEntity<PageableResponse<ProductDto>>searchProduvt(
             @PathVariable String query,
             @RequestParam(value = "pagenumber",defaultValue = "0",required = false)int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false)int pageSize,
             @RequestParam(value = "sortBy",defaultValue = "title",required = false)String sortBy,
             @RequestParam(value = "sortDir",defaultValue = "asc",required = false)String sortDir
     ){
-        PageableResponse<ProductDTO> all = productService.searchByTitle(query,pageNumber, pageSize, sortBy, sortDir);
+        PageableResponse<ProductDto> all = productService.searchByTitle(query,pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(all,HttpStatus.OK);
     }
 
@@ -96,9 +96,9 @@ public class ProductController {
             @RequestParam("productImage")MultipartFile image
             ) throws IOException {
         String uploadFileName = fileService.uploadFile(image, imagePath);
-        ProductDTO productDTO = productService.get(productId);
+        ProductDto productDTO = productService.get(productId);
         productDTO.setProductImageName(uploadFileName);
-        ProductDTO updatedProduct = productService.update(productDTO, productId);
+        ProductDto updatedProduct = productService.update(productDTO, productId);
         ImageResponse build = ImageResponse.builder().imageName(updatedProduct.getProductImageName())
                 .message("image uploaded successfully")
                 .success(true).
@@ -112,7 +112,7 @@ public class ProductController {
     public void serveUserImage(@PathVariable String productId,
                                HttpServletResponse response
     ) throws IOException {
-        ProductDTO productDTO = productService.get(productId);
+        ProductDto productDTO = productService.get(productId);
         InputStream resource = fileService.getResource(imagePath, productDTO.getProductImageName());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource, response.getOutputStream());

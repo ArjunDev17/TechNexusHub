@@ -1,41 +1,39 @@
 package com.codeneeti.technexushub.services;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
-import com.codeneeti.technexushub.dtos.ProductDTO;
-
-import java.util.List;
+import com.codeneeti.technexushub.dtos.ProductDto;
 
 public interface ProductService {
-    ProductDTO create(ProductDTO productDTO);
+    ProductDto create(ProductDto productDTO);
 
-    ProductDTO update(ProductDTO productDTO, String productId);
+    ProductDto update(ProductDto productDTO, String productId);
 
     void delete(String productId);
 
-    ProductDTO get(String productId);
+    ProductDto get(String productId);
 
-    PageableResponse<ProductDTO> getAll(int pageNumber,
+    PageableResponse<ProductDto> getAll(int pageNumber,
                                         int pageSize,
                                         String sortBy,
                                         String sortDir);
 
-    PageableResponse<ProductDTO> getAllLive(int pageNumber,
+    PageableResponse<ProductDto> getAllLive(int pageNumber,
                                             int pageSize,
                                             String sortBy,
                                             String sortDir);
 
-    PageableResponse<ProductDTO> searchByTitle(String pageNumber,
+    PageableResponse<ProductDto> searchByTitle(String pageNumber,
                                                int numberSize,
                                                int pageSize,
                                                String sortBy,
                                                String sortDir);
     //create product with Category
-    ProductDTO createWithCategory(ProductDTO productDTO,String categoryId);
-    ProductDTO updateCategory(String productId,String categoryId);
+    ProductDto createWithCategory(ProductDto productDTO, String categoryId);
+    ProductDto updateCategory(String productId, String categoryId);
 
-    PageableResponse<ProductDTO>getAllOfCategory(String categoryId,int pageNumber,
-                                                int pageSize,
-                                                String sortBy,
-                                                String sortDir);
+    PageableResponse<ProductDto>getAllOfCategory(String categoryId, int pageNumber,
+                                                 int pageSize,
+                                                 String sortBy,
+                                                 String sortDir);
 
 }
