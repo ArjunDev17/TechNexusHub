@@ -1,25 +1,25 @@
 package com.codeneeti.technexushub.services;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
-import com.codeneeti.technexushub.dtos.UserDTO;
+import com.codeneeti.technexushub.dtos.UserDto;
 
 import java.util.List;
 
 public interface UserSerivice {
 
-    UserDTO createUser(UserDTO userDTO);
+    UserDto createUser(UserDto userDTO);
 
-    UserDTO updateUser(String userId, UserDTO userDTO);
+    UserDto updateUser(String userId, UserDto userDTO);
 
     void delteUser(String userId);
 
-    PageableResponse<UserDTO> getAllUser(int pageNumber, int pageSize , String sortBy, String sortDir);
+    PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize , String sortBy, String sortDir);
 
-    UserDTO getUserById(String userId);
+    UserDto getUserById(String userId);
 
-    UserDTO getUserByEmail(String email);
+    UserDto getUserByEmail(String email);
 
-    List<UserDTO> searchUser(String keyword);
+    List<UserDto> searchUser(String keyword);
 
 }
 

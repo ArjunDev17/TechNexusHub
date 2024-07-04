@@ -1,7 +1,7 @@
 package com.codeneeti.technexushub.services.impl;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
-import com.codeneeti.technexushub.dtos.UserDTO;
+import com.codeneeti.technexushub.dtos.UserDto;
 import com.codeneeti.technexushub.entities.User;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
 import com.codeneeti.technexushub.helper.Helper;
@@ -40,19 +40,19 @@ public class UserserviceImpl implements UserSerivice {
     Logger logger= LoggerFactory.getLogger(UserserviceImpl.class);
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDto createUser(UserDto userDTO) {
         String userId = UUID.randomUUID().toString();
         userDTO.setUserId(userId);
         User user = dtoToEntity(userDTO);
 //        userRepository.save(userDTO);
         userRepository.save(user);
-        UserDTO userDTO1 = entityToDto(user);
+        UserDto userDTO1 = entityToDto(user);
 
         return userDTO1;
     }
 
     @Override
-    public UserDTO updateUser(String userId, UserDTO userDTO) {
+    public UserDto updateUser(String userId, UserDto userDTO) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not findfrom this id"));
         user.setName(userDTO.getName());
         user.setAbout(userDTO.getAbout());
@@ -80,7 +80,7 @@ logger.info("Image folder not found");
     }
 
     @Override
-    public PageableResponse<UserDTO> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir) {
+    public PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir) {
 
 
 //        Pageable pageable= (Pageable) PageRequest.of(pageNumber,pageSize);
@@ -90,32 +90,32 @@ logger.info("Image folder not found");
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort); //pageNumber-1
 //        List<UserEntity> userList = userRepository.findAll();
         Page<User> pages = userRepository.findAll(pageable);
-        PageableResponse<UserDTO> response = Helper.getPageableResponse(pages, UserDTO.class);
+        PageableResponse<UserDto> response = Helper.getPageableResponse(pages, UserDto.class);
 
         return response;
     }
 
     @Override
-    public UserDTO getUserById(String userId) {
+    public UserDto getUserById(String userId) {
         User userEntity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found"));
         return entityToDto(userEntity);
     }
 
     @Override
-    public UserDTO getUserByEmail(String email) {
+    public UserDto getUserByEmail(String email) {
         User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found from this email ID"));
         return entityToDto(userEntity);
     }
 
     @Override
-    public List<UserDTO> searchUser(String keyword) {
+    public List<UserDto> searchUser(String keyword) {
         Optional<User> byNameContaining = userRepository.findByNameContaining(keyword);
-        List<UserDTO> userDTOList = byNameContaining.stream().map(userEntity -> entityToDto(userEntity)).collect(Collectors.toList());
+        List<UserDto> userDTOList = byNameContaining.stream().map(userEntity -> entityToDto(userEntity)).collect(Collectors.toList());
 
         return userDTOList;
     }
 
-    private User dtoToEntity(UserDTO userDTO) {
+    private User dtoToEntity(UserDto userDTO) {
 //        UserEntity userEntity = UserEntity.builder()
 //                .userId(userDTO.getUserId())
 //                .name(userDTO.getName())
@@ -129,7 +129,7 @@ logger.info("Image folder not found");
         return modelMapper.map(userDTO, User.class);
     }
 
-    private UserDTO entityToDto(User user) {
+    private UserDto entityToDto(User user) {
 //        UserDTO userDTO = UserDTO.builder()
 //                .userId(user.getUserId())
 //                .name(user.getName())
@@ -142,7 +142,7 @@ logger.info("Image folder not found");
 //        return userDTO;
 
 //        commented code is the user defined
-        return modelMapper.map(user, UserDTO.class);
+        return modelMapper.map(user, UserDto.class);
     }
 
 

@@ -39,7 +39,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class ProductDTO {
+public class ProductDto {
     private String productId;
     private String title;
     private String description;
@@ -50,6 +50,6 @@ public class ProductDTO {
     private boolean live;
     private boolean stock;
     private String productImageName;
-    private CategoryDTO category;
+    private CategoryDto category;
 }
 

@@ -1,12 +1,12 @@
 package com.codeneeti.technexushub.services;
 
-import com.codeneeti.technexushub.dtos.CategoryDTO;
+import com.codeneeti.technexushub.dtos.CategoryDto;
 import com.codeneeti.technexushub.dtos.PageableResponse;
 
 public interface CategoryService {
-    CategoryDTO create(CategoryDTO categoryDTO);
-    CategoryDTO update(CategoryDTO categoryDTO,String categoryId);
+    CategoryDto create(CategoryDto categoryDTO);
+    CategoryDto update(CategoryDto categoryDTO, String categoryId);
     void  delete(String categoryId);
-    CategoryDTO getSingleDTO(String categoryId);
-    PageableResponse<CategoryDTO>getAll(int pageNumber,int pageSize,String sortBy,String sortDir);
+    CategoryDto getSingleDTO(String categoryId);
+    PageableResponse<CategoryDto>getAll(int pageNumber, int pageSize, String sortBy, String sortDir);
 }

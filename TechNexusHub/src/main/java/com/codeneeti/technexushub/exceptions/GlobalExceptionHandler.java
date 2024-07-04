@@ -1,6 +1,6 @@
 package com.codeneeti.technexushub.exceptions;
 
-import com.codeneeti.technexushub.dtos.ApiResponse;
+import com.codeneeti.technexushub.dtos.ApiResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class GlobalExceptionHandler {
     private Logger logger= LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse>resourceNotFoundExceptionHandler(ResourceNotFoundException exception){
-        ApiResponse apiResponse = ApiResponse.builder()
+    public ResponseEntity<ApiResponseMessage>resourceNotFoundExceptionHandler(ResourceNotFoundException exception){
+        ApiResponseMessage apiResponse = ApiResponseMessage.builder()
                 .message(exception.getMessage())
                 .status(HttpStatus.NOT_FOUND)
                 .success(true)
@@ -43,9 +43,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadApiRequestException.class)
-    public ResponseEntity<ApiResponse>badApiRequestExceptionHandler(BadApiRequestException exception){
+    public ResponseEntity<ApiResponseMessage>badApiRequestExceptionHandler(BadApiRequestException exception){
         logger.info("bad request generated :");
-        ApiResponse apiResponse = ApiResponse.builder()
+        ApiResponseMessage apiResponse = ApiResponseMessage.builder()
                 .message(exception.getMessage())
                 .status(HttpStatus.BAD_REQUEST)
                 .success(false)

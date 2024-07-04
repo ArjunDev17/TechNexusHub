@@ -1,7 +1,7 @@
 package com.codeneeti.technexushub.services.impl;
 
 import com.codeneeti.technexushub.dtos.PageableResponse;
-import com.codeneeti.technexushub.dtos.ProductDTO;
+import com.codeneeti.technexushub.dtos.ProductDto;
 import com.codeneeti.technexushub.entities.Category;
 import com.codeneeti.technexushub.entities.Product;
 import com.codeneeti.technexushub.exceptions.ResourceNotFoundException;
@@ -18,8 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 //import static sun.awt.image.MultiResolutionCachedImage.map;
@@ -42,18 +40,18 @@ public class ProductserviceImpl implements ProductService {
 //        return mapper.map(saved, ProductDTO.class);
 //    }
 @Override
-public ProductDTO create(ProductDTO productDTO) {
+public ProductDto create(ProductDto productDTO) {
     Product product = mapper.map(productDTO, Product.class);
     String stringUUID = UUID.randomUUID().toString();
     product.setProductId(stringUUID); // Assign the UUID to the entity
     product.setAddedDate(new Date());
     Product saved = productRepository.save(product);
-    return mapper.map(saved, ProductDTO.class);
+    return mapper.map(saved, ProductDto.class);
 }
 
 
     @Override
-    public ProductDTO update(ProductDTO productDTO, String productId) {
+    public ProductDto update(ProductDto productDTO, String productId) {
         Product productRepositoryById = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("product not foundbased onthis id"));
 
         productRepositoryById.setTitle(productDTO.getTitle());
@@ -67,7 +65,7 @@ public ProductDTO create(ProductDTO productDTO) {
         Product saved = productRepository.save(productRepositoryById);
 
 
-        return mapper.map(saved, ProductDTO.class);
+        return mapper.map(saved, ProductDto.class);
     }
 
     @Override
@@ -77,13 +75,13 @@ public ProductDTO create(ProductDTO productDTO) {
     }
 
     @Override
-    public ProductDTO get(String productId) {
+    public ProductDto get(String productId) {
         Product productRepositoryById = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("product not foundbased onthis id"));
-        return mapper.map(productRepositoryById, ProductDTO.class);
+        return mapper.map(productRepositoryById, ProductDto.class);
     }
 
     @Override
-    public PageableResponse<ProductDTO> getAll(int pageNumber,
+    public PageableResponse<ProductDto> getAll(int pageNumber,
                                                int pageSize,
                                                String sortBy,
                                                String sortDir) {
@@ -91,11 +89,11 @@ public ProductDTO create(ProductDTO productDTO) {
         Pageable pageable= PageRequest.of(pageNumber,pageSize,sort);
         Page<Product> all = productRepository.findAll(pageable);
 
-        return Helper.getPageableResponse(all,ProductDTO.class);
+        return Helper.getPageableResponse(all, ProductDto.class);
     }
 
     @Override
-    public PageableResponse<ProductDTO> getAllLive(int pageNumber,
+    public PageableResponse<ProductDto> getAllLive(int pageNumber,
                                                    int pageSize,
                                                    String sortBy,
                                                    String sortDir) {
@@ -103,11 +101,11 @@ public ProductDTO create(ProductDTO productDTO) {
         Pageable pageable= PageRequest.of(pageNumber,pageSize,sort);
         Page<Product> all = productRepository.findByLiveTrue(pageable);
 
-        return Helper.getPageableResponse(all,ProductDTO.class);
+        return Helper.getPageableResponse(all, ProductDto.class);
     }
 
     @Override
-    public PageableResponse<ProductDTO> searchByTitle(String subTitle, int pageNumber,
+    public PageableResponse<ProductDto> searchByTitle(String subTitle, int pageNumber,
                                                       int pageSize,
                                                       String sortBy,
                                                       String sortDir) {
@@ -116,11 +114,11 @@ public ProductDTO create(ProductDTO productDTO) {
         Pageable pageable= PageRequest.of(pageNumber,pageSize,sort);
         Page<Product> all = productRepository.findByTitleContaining(subTitle,pageable);
 
-        return Helper.getPageableResponse(all,ProductDTO.class);
+        return Helper.getPageableResponse(all, ProductDto.class);
     }
 
     @Override
-    public ProductDTO createWithCategory(ProductDTO productDTO, String categoryId) {
+    public ProductDto createWithCategory(ProductDto productDTO, String categoryId) {
         // Find the category by its ID
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new ResourceNotFoundException("Category not found based on this ID"));
@@ -139,21 +137,21 @@ public ProductDTO create(ProductDTO productDTO) {
         Product saved = productRepository.save(product);
 
         // Map the saved entity back to a DTO
-        return mapper.map(saved, ProductDTO.class);
+        return mapper.map(saved, ProductDto.class);
     }
 
     @Override
-    public ProductDTO updateCategory(String productId, String categoryId) {
+    public ProductDto updateCategory(String productId, String categoryId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("product not found based onthis id"));
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found based onthis id"));
 product.setCategory(category);
         Product savedProduct = productRepository.save(product);
 
-        return mapper.map(savedProduct,ProductDTO.class);
+        return mapper.map(savedProduct, ProductDto.class);
     }
 
     @Override
-    public PageableResponse<ProductDTO> getAllOfCategory(String categoryId,int pageNumber,
+    public PageableResponse<ProductDto> getAllOfCategory(String categoryId, int pageNumber,
                                                          int pageSize,
                                                          String sortBy,
                                                          String sortDir) {
@@ -161,7 +159,7 @@ product.setCategory(category);
         Sort sort=(sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
         Pageable pageable=PageRequest.of(pageNumber,pageSize,sort);
         Page<Product> byCategory = productRepository.findByCategory(category,pageable);
-        return Helper.getPageableResponse(byCategory,ProductDTO.class);
+        return Helper.getPageableResponse(byCategory, ProductDto.class);
     }
 
 }

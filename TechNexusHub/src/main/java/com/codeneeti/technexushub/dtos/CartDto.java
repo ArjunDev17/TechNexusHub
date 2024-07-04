@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartDTO {
+public class CartDto {
     private String cartId;
     private Date createdAt;
     //    private String userName;
-    private UserDTO user;
-    private List<CartItemDTO> items = new ArrayList<>();
+    private UserDto user;
+    private List<CartItemDto> items = new ArrayList<>();
 }
