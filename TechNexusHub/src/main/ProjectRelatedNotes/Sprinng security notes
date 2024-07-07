@@ -1,0 +1,32 @@
+Authorization
+Authentication
+Authentication: This is the process of verifying someone's claimed identity. In the digital world, users prove their identity with credentials like usernames, passwords, security tokens, or even biometrics (fingerprint, facial recognition).
+
+Common methods:
+
+Something the user knows: Username/password, PIN
+
+Something the user has: Security key, phone for verification codes
+
+Something the user is: Fingerprint, facial recognition
+
+Authorization: This determines what level of access a user has to specific resources after they're authenticated. Imagine a company with different user roles:
+
+Admins can access and edit everything.
+
+Editors can edit content but not user accounts.
+
+Regular users can only view content.
+
+Key Differences
+
+Focus: Authentication asks "who are you?" while authorization asks "what can you do?"
+
+Timing: Authentication happens first, then authorization.
+
+Visibility: Users often interact with authentication (login screen), while authorization happens behind the scenes.
+
+Why are they important?
+
+Together, authentication and authorization are crucial for computer security. They ensure only authorized users access specific resources, protecting sensitive information and functionalities.
+
