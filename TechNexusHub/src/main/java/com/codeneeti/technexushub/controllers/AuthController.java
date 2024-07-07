@@ -1,5 +1,7 @@
 package com.codeneeti.technexushub.controllers;
 
+import com.codeneeti.technexushub.dtos.UserDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +17,17 @@ import java.security.Principal;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
     private UserDetailsService userDetailsService;
+
     @GetMapping("/current")
-    public ResponseEntity<UserDetails>getcurrentUser(Principal principal){
+    public ResponseEntity<UserDto> getcurrentUser(Principal principal) {
         String principalName = principal.getName();
-        return new ResponseEntity<>(userDetailsService.loadUserByUsername(principalName), HttpStatus.OK);
+
+        return new ResponseEntity<>(modelMapper.map(
+                userDetailsService.loadUserByUsername(principalName), UserDto.class),
+                HttpStatus.OK);
     }
 }
 // public class AuthController {
