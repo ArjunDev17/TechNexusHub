@@ -1,0 +1,51 @@
+
+    //    @Bean
+//    public UserDetailsService userDetailsService(){
+//        UserDetails noramlUser = User.builder()
+//                .username("kabbu")
+//                .password(passwordEncoder().encode("123"))
+//                .roles("normal")
+//                .build();
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("admin12"))
+//                .roles("admin")
+//                .build();
+////        InMemoryUserDetailsManager -is implimentation class of UsersDetailService
+//        return new InMemoryUserDetailsManager(noramlUser,admin);
+////    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http.csrf()
+//                .disable()
+//                        .cors()
+//                                .disable()
+//                                        .
+//                authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .httpBasic();
+//
+//        return http.build();
+//    }
+
+//@Bean
+//public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    http.csrf(csrfConfigurer -> csrfConfigurer.disable())
+//            .cors(corsConfigurer -> corsConfigurer.disable())
+//            .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+//            .httpBasic(httpBasicConfigurer -> {
+//                // Custom entry point for logging failed authentication
+//                httpBasicConfigurer.authenticationEntryPoint((request, response, authException) -> {
+//                    System.out.println("Authentication failed: " + authException.getMessage());
+//                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+//                });
+//            });
+//
+////    http.logout(logoutConfigurer -> logoutConfigurer.logoutSuccessHandler(logoutSuccessHandler()));
+//
+//    return http.build();
+//}
