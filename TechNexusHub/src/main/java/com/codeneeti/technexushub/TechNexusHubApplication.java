@@ -20,8 +20,13 @@ public class TechNexusHubApplication implements CommandLineRunner {
 	}
 	@GetMapping("/hi")
 	public String welcomeMsg(){
-		System.out.println("coming inside");
+
 		return "Welcome back";
+	}
+	@GetMapping("/hello")
+	public String welcomeMsg2(){
+
+		return "Welcome authorized back";
 	}
 @Autowired
 private PasswordEncoder passwordEncoder;
