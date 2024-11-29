@@ -32,6 +32,8 @@ public class User implements UserDetails {
     private String about;
     @Column(name = "user_image_name")
     private String imageName;
+    @ManyToMany(mappedBy = "userList",fetch = FetchType.EAGER)
+    private List<Role>roleList=new ArrayList<>();
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Order> orders = new ArrayList<>();
 

@@ -265,7 +265,6 @@ public class CartServiceImpl implements CartService {
     public CartDto addItemToCart(String userId, AddItemToCartRequest request) {
         int quantity = request.getQuantity();
         String productId = request.getProductId();
-
         if (quantity <= 0) {
             throw new BadApiRequestException("Requested quantity is not valid !!");
         }

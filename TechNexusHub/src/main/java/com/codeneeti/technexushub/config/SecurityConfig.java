@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -18,6 +19,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity(debug = true)
+@EnableMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig {
 
@@ -38,13 +40,26 @@ public class SecurityConfig {
 //                    request.anyRequest().permitAll();
 //                }
 //        );
-        httpSecurity.authorizeHttpRequests(r -> r.requestMatchers("/hello").authenticated().
-                requestMatchers("/users/**").permitAll().
-                requestMatchers(HttpMethod.DELETE, "/products").authenticated().anyRequest().authenticated());
-//        httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        return httpSecurity.build();
+//        httpSecurity.authorizeHttpRequests(r -> r.requestMatchers("/hello").authenticated().
+//                requestMatchers("/users/**").permitAll().
+//                requestMatchers(HttpMethod.DELETE, "/products").authenticated().anyRequest().authenticated());
+////        httpSecurity.formLogin(Customizer.withDefaults());
+//        httpSecurity.httpBasic(Customizer.withDefaults());
+//        return httpSecurity.build();
 
+        httpSecurity.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable());
+        httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
+        httpSecurity.authorizeHttpRequests(request->{
+           request.requestMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
+                   .requestMatchers(HttpMethod.PUT,"/users/**").hasAnyRole("ADMIN","NORMAL")
+                   .requestMatchers(HttpMethod.GET,"/products/**").permitAll()
+                   .requestMatchers("/products/**").hasRole("ADMIN")
+                   .requestMatchers(HttpMethod.GET,"/users/**").permitAll()
+                   .requestMatchers(HttpMethod.GET,"/categores/**").permitAll()
+                   .requestMatchers("/categories/**").hasRole("ADMIN");
+        });
+
+        return null;
     }
 
 //    @Bean
