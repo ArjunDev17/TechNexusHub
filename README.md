@@ -2,6 +2,7 @@
 
 Welcome to **TechNexusHub**, your go-to destination for cutting-edge electronics and technology solutions. This project is designed to provide a comprehensive platform for tech enthusiasts and professionals, offering seamless user interaction and robust backend support.
 
+---
 ## 🏗️ Project Structure
 
 Below is a detailed breakdown of the project's folder and file structure, along with their purposes:
@@ -73,7 +74,7 @@ src/
   - `src/main/resources/`: Contains configuration and static files.  
   - `src/test/`: Includes test classes to ensure the application functions correctly.
 
----
+
 
 ---
 
