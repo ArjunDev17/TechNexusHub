@@ -105,7 +105,7 @@ src/
 
 1. **Clone the Repository:**  
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/ArjunDev17/TechNexusHub
    cd TechNexusHub
    ```
 
@@ -122,7 +122,7 @@ src/
    ```
 
 4. **Access the Application:**  
-   Open a browser and navigate to `http://localhost:8080`.
+   Open a browser and navigate to `http://localhost:XXXX`.
 
 ---
 
