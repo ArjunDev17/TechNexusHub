@@ -1,23 +1,6 @@
-# TechNexusHub
+## TechNexusHub
 
 Welcome to **TechNexusHub**, your go-to destination for cutting-edge electronics and technology solutions. This project is designed to provide a comprehensive platform for tech enthusiasts and professionals, offering seamless user interaction and robust backend support.
-
----
-
-## 📜 Recent Updates
-
-### Commit Message: Initial Project Setup and HomeController Addition  
-**Commit Details:**  
-- **HomeController:** A new `HomeController` class has been added to handle requests for the home page. This controller is responsible for managing primary interactions on the main page of the application.  
-- **Initial Project Setup:**  
-  - `.gitignore`: Specifies files and directories to ignore in git operations.  
-  - Maven Wrapper Files (`.mvn/`, `mvnw`, `mvnw.cmd`): Enables easy Maven build execution without installing Maven.  
-  - `pom.xml`: Maven Project Object Model for dependency and build configuration.  
-  - `TechNexusHubApplication.java`: Main application class that bootstraps the Spring Boot application.  
-  - `src/main/resources/`: Contains configuration and static files.  
-  - `src/test/`: Includes test classes to ensure the application functions correctly.
-
----
 
 ## 🏗️ Project Structure
 
@@ -75,6 +58,22 @@ src/
     └── java/com/codeneeti/technexushub/
         └── TechNexusHubApplicationTests.java # Test cases for the application
 ```
+---
+
+## 📜 Recent Updates
+
+### Commit Message: Initial Project Setup and HomeController Addition  
+**Commit Details:**  
+- **HomeController:** A new `HomeController` class has been added to handle requests for the home page. This controller is responsible for managing primary interactions on the main page of the application.  
+- **Initial Project Setup:**  
+  - `.gitignore`: Specifies files and directories to ignore in git operations.  
+  - Maven Wrapper Files (`.mvn/`, `mvnw`, `mvnw.cmd`): Enables easy Maven build execution without installing Maven.  
+  - `pom.xml`: Maven Project Object Model for dependency and build configuration.  
+  - `TechNexusHubApplication.java`: Main application class that bootstraps the Spring Boot application.  
+  - `src/main/resources/`: Contains configuration and static files.  
+  - `src/test/`: Includes test classes to ensure the application functions correctly.
+
+---
 
 ---
 
