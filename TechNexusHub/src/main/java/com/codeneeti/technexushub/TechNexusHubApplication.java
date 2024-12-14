@@ -16,7 +16,7 @@ public class TechNexusHubApplication {
 	@GetMapping("/hi")
 	public String welcomeMsg(){
 		System.out.println("coming inside");
-		return "Welcome back";
+		return "Welcome back Shubham";
 	}
 
 }
