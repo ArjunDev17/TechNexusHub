@@ -1,9 +1,6 @@
 package com.codeneeti.technexushub.controllers;
 
-import com.codeneeti.technexushub.dtos.ApiResponseMessage;
-import com.codeneeti.technexushub.dtos.FresherDTO;
-import com.codeneeti.technexushub.dtos.LoginRequest;
-import com.codeneeti.technexushub.dtos.PageableResponse;
+import com.codeneeti.technexushub.dtos.*;
 import com.codeneeti.technexushub.services.FresherService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/freshers")
 public class FresherController {
 
@@ -58,22 +56,40 @@ public class FresherController {
 
 
 
+    // Login API
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest loginRequest) {
         try {
             // Call the service layer to handle login logic
             boolean loginSuccess = fresherService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+
             if (loginSuccess) {
-                return new ResponseEntity<>("Login successful", HttpStatus.OK);
+                // Return successful response with a custom message and data
+                ApiResponse response = ApiResponse.builder()
+                        .success(true)
+                        .data(HttpStatus.OK)  // You can replace this with some data (e.g., fresher ID)
+                        .message("Login successful")
+                        .build();
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+                // Return failed response
+                ApiResponse response = ApiResponse.builder()
+                        .success(false)
+                        .data(HttpStatus.UNAUTHORIZED)  // You can replace this with some error code or message
+                        .message("Invalid credentials")
+                        .build();
+                return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred during login", HttpStatus.INTERNAL_SERVER_ERROR);
+            // Handle any unexpected errors
+            ApiResponse response = ApiResponse.builder()
+                    .success(false)
+                    .data(null)
+                    .message("An error occurred: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
     // Update an existing Fresher
     @PutMapping("/update/{fresherId}")
     public ResponseEntity<FresherDTO> updateFresher(

@@ -45,7 +45,7 @@ public class FresherServiceImpl implements FresherService {
         Fresher fresher = fresherRepository.findById(Long.valueOf(fresherId))
                 .orElseThrow(() -> new ResourceNotFoundException("Fresher not found with ID: " + fresherId));
         fresher.setFirstName(fresherDTO.getFirstName());
-        fresher.setLastName(fresherDTO.getLastName());
+//        fresher.setLastName(fresherDTO.getLastName());
         fresher.setEmail(fresherDTO.getEmail());
         fresher.setPhoneNumber(fresherDTO.getPhoneNumber());
 //        fresher.setUsername(fresherDTO.getUsername());
