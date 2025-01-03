@@ -15,11 +15,11 @@ public class FresherDTO {
     private String fresherId;  // This is the unique ID but it could be auto-generated, so it's optional in DTO
 
 //    @NotBlank(message = "First name is required")
-    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
+  //  @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     private String firstName;  // First name of the fresher
 
 //    @NotBlank(message = "Last name is required")
-    @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
+   // @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String lastName;  // Last name of the fresher
 
 //    @NotBlank(message = "Email is required")

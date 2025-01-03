@@ -17,10 +17,10 @@ public class Fresher {
     @Column(name = "fresher_id")
     private Long fresherId;  // Unique ID for each fresher
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = true)
     private String firstName;  // First Name
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = true)
     private String lastName;  // Last Name
 
     @Column(name = "email", nullable = false, unique = true)

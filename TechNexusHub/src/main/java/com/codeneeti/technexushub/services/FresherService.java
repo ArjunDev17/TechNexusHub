@@ -8,6 +8,7 @@ public interface FresherService {
     FresherDTO createFresher(FresherDTO fresherDTO);
 
     FresherDTO updateFresher(String fresherId, FresherDTO fresherDTO);
+    FresherDTO updateFresherByEmail(String fresherId, FresherDTO fresherDTO);
 
     void deleteFresher(String fresherId);
 

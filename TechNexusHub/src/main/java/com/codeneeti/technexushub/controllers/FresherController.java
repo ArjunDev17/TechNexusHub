@@ -28,33 +28,6 @@ public class FresherController {
         FresherDTO createdFresher = fresherService.createFresher(fresherDTO);
         return new ResponseEntity<>(createdFresher, HttpStatus.CREATED);
     }
-//    // Login API
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-//        try {
-//            // Call the service layer to handle login logic
-//            String token = fresherService.login(loginRequest);
-//            return new ResponseEntity<>(token, HttpStatus.OK); // Return JWT token if login is successful
-//        } catch (RuntimeException e) {
-//            // In case of invalid credentials or other errors
-//            return new ResponseEntity<>("Invalid credentials or error during login", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
-
-//    // Login API - Verify fresher credentials
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestParam("email") String email, @RequestParam("password") String password) {
-//        try {
-//            // Call the service layer to handle login logic
-//            String result = fresherService.login(email, password); // Return success message or failure
-//            return new ResponseEntity<>(result, HttpStatus.OK); // Return login result
-//        } catch (RuntimeException e) {
-//            // In case of invalid credentials or other errors
-//            return new ResponseEntity<>("Invalid credentials or error during login", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
-
-
 
     // Login API
     @PostMapping("/login")
@@ -98,6 +71,16 @@ public class FresherController {
         FresherDTO updatedFresher = fresherService.updateFresher(fresherId, fresherDTO);
         return new ResponseEntity<>(updatedFresher, HttpStatus.OK);
     }
+
+    @PutMapping("/update-password")
+    public ResponseEntity<FresherDTO> updateFresherByEmailID(
+            @Valid @RequestBody FresherDTO fresherDTO) {
+        String email = fresherDTO.getEmail();  // Assuming FresherDTO has an 'email' field
+        FresherDTO updatedFresher = fresherService.updateFresherByEmail(email, fresherDTO);
+        return new ResponseEntity<>(updatedFresher, HttpStatus.OK);
+
+    }
+
 
     // Delete a Fresher by ID
     @DeleteMapping("/delete/{fresherId}")

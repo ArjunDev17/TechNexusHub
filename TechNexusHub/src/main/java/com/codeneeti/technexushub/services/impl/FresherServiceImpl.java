@@ -44,10 +44,26 @@ public class FresherServiceImpl implements FresherService {
     public FresherDTO updateFresher(String fresherId, FresherDTO fresherDTO) {
         Fresher fresher = fresherRepository.findById(Long.valueOf(fresherId))
                 .orElseThrow(() -> new ResourceNotFoundException("Fresher not found with ID: " + fresherId));
-        fresher.setFirstName(fresherDTO.getFirstName());
+//        fresher.setFirstName(fresherDTO.getFirstName());
 //        fresher.setLastName(fresherDTO.getLastName());
         fresher.setEmail(fresherDTO.getEmail());
-        fresher.setPhoneNumber(fresherDTO.getPhoneNumber());
+//        fresher.setPhoneNumber(fresherDTO.getPhoneNumber());/
+//        fresher.setUsername(fresherDTO.getUsername());
+        fresher.setPassword(fresherDTO.getPassword());
+//        fresher.setGender(fresherDTO.getGender());
+        fresherRepository.save(fresher);
+        return modelMapper.map(fresher, FresherDTO.class);
+    }
+
+
+
+    public FresherDTO updateFresherByEmail(String emailID, FresherDTO fresherDTO) {
+        Fresher fresher = fresherRepository.findByEmail(emailID)
+                .orElseThrow(() -> new ResourceNotFoundException("Fresher not found with ID: " + emailID));
+//        fresher.setFirstName(fresherDTO.getFirstName());
+//        fresher.setLastName(fresherDTO.getLastName());
+        fresher.setEmail(fresherDTO.getEmail());
+//        fresher.setPhoneNumber(fresherDTO.getPhoneNumber());/
 //        fresher.setUsername(fresherDTO.getUsername());
         fresher.setPassword(fresherDTO.getPassword());
 //        fresher.setGender(fresherDTO.getGender());
