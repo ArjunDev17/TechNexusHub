@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -37,12 +38,15 @@ public class UserserviceImpl implements UserSerivice {
     private ModelMapper modelMapper;
     @Value("${user.profile.image.path}")
     private String imagePath;
-    Logger logger= LoggerFactory.getLogger(UserserviceImpl.class);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    Logger logger = LoggerFactory.getLogger(UserserviceImpl.class);
 
     @Override
     public UserDto createUser(UserDto userDTO) {
         String userId = UUID.randomUUID().toString();
         userDTO.setUserId(userId);
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = dtoToEntity(userDTO);
 //        userRepository.save(userDTO);
         userRepository.save(user);
@@ -68,12 +72,12 @@ public class UserserviceImpl implements UserSerivice {
         User userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
 
         //delete imagre file
-        String fullPath=imagePath+userEntity.getImageName();
-        try{
-            Path path= Paths.get(fullPath);
+        String fullPath = imagePath + userEntity.getImageName();
+        try {
+            Path path = Paths.get(fullPath);
             Files.delete(path);
-        }catch (NoSuchFileException exception){
-logger.info("Image folder not found");
+        } catch (NoSuchFileException exception) {
+            logger.info("Image folder not found");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
